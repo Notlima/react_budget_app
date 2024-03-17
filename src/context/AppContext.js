@@ -21,25 +21,25 @@ export const AppReducer = (state, action) => {
                 return { ...state };
             }
 
-        case 'RED_EXPENSE':
-            const red_expenses = state.expenses.map((currentExp) => {
-                if (currentExp.name === action.payload.name && currentExp.cost - action.payload.cost >= 0) {
-                    currentExp.cost -= action.payload.cost;
-                    budget = state.budget + action.payload.cost;
-                }
-                return currentExp;
-            });
-            return { ...state, expenses: [...red_expenses] };
-
-        case 'DELETE_EXPENSE':
-            state.expenses = state.expenses.map((currentExp) => {
-                if (currentExp.name === action.payload) {
-                    budget = state.budget + currentExp.cost;
-                    currentExp.cost = 0;
-                }
-                return currentExp;
-            });
-            return { ...state, budget };
+            case 'RED_EXPENSE':
+                const red_expenses = state.expenses.map((currentExp) => {
+                    if (currentExp.name === action.payload.name && currentExp.cost - action.payload.cost >= 0) {
+                        currentExp.cost -= action.payload.cost;
+                       
+                    }
+                    return currentExp;
+                });
+                return { ...state, expenses: [...red_expenses] };
+            
+            case 'DELETE_EXPENSE':
+                state.expenses = state.expenses.map((currentExp) => {
+                    if (currentExp.name === action.payload) {
+                        budget += currentExp.cost; // Atualize o orçamento ao excluir a despesa
+                        currentExp.cost = 0;
+                    }
+                    return currentExp;
+                });
+                return { ...state, budget };
 
         case 'SET_BUDGET':
             state.budget = action.payload;
